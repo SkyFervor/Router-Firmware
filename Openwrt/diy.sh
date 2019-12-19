@@ -15,7 +15,7 @@ sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/M
 
 echo '删除旧版argon,链接新版'
 rm -rf ./package/lean/luci-theme-argon
-ln -s ../../../luci-theme-argon ./package/lean/
+ln -s ../../../Openwrt/luci-theme-argon ./package/lean/
 
 echo '修改wifi名称'
 sed -i 's/OpenWrt/JDC/g' package/kernel/mac80211/files/lib/wifi/mac80211.sh
@@ -28,7 +28,7 @@ sed -i '2c net.netfilter.nf_conntrack_max=131072' package/base-files/files/etc/s
 #sed -i '8a\lcp-echo-failure 10' package/network/services/ppp/files/etc/ppp/options
 #sed -i '9a\lcp-echo-interval 1' package/network/services/ppp/files/etc/ppp/options
 #rm -rf ./package/lean/luci-app-syncdial
-#ln -s ../../../luci-app-syncdial ./package/lean/
+#ln -s ../../../Openwrt/luci-app-syncdial ./package/lean/
 #chmod -R 755 ./package/lean/luci-app-syncdial
 #sed -i 's/SYNCPPP_TIMEOUT 5/SYNCPPP_TIMEOUT 1/g' package/network/services/ppp/patches/511-syncppp.patch
 
