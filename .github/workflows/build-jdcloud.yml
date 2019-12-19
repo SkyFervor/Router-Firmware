@@ -78,8 +78,7 @@ jobs:
         sed -i '67a\	jdcloud,re-sp-01b|\\' ./lede/target/linux/ramips/mt7621/base-files/etc/board.d/02_network
         chmod +x Openwrt/diy.sh
         cd lede
-        ..
-        Openwrt/diy.sh
+        ../Openwrt/diy.sh
         make defconfig
 
     - name: Download package
