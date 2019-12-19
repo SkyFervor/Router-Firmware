@@ -32,8 +32,8 @@ jobs:
           sudo -E apt-get -y autoremove --purge
           sudo -E apt-get clean
 
-     - name: Clone source code
-       run: |
+      - name: Clone source code
+        run: |
           git clone --depth=1 https://github.com/chongshengB/rt-n56u.git /opt/rt-n56u
 
       - name: Download Toolchain
@@ -63,5 +63,5 @@ jobs:
         uses: actions/upload-artifact@master
         if: always()
         with:
-          name: Padavan-packages
+          name: JDC-Padavan
           path: /opt/images
