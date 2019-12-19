@@ -1,0 +1,109 @@
+#=================================================
+#   Description: JDCOS FROM LEAN'S LEDE
+#   Author: JK
+#=================================================
+
+name: Build JDCOS
+
+on: 
+  release:
+    types: [published]
+  push:
+    branches: 
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Initialization environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        docker rmi `docker images -q`
+        echo "Deleting files, please wait ..."
+        sudo rm -rf \
+          /usr/share/dotnet \
+          /etc/mysql \
+          /etc/php
+        sudo -E apt-get -y purge \
+          azure-cli \
+          ghc* \
+          zulu* \
+          hhvm \
+          llvm* \
+          firefox \
+          google* \
+          dotnet* \
+          powershell \
+          openjdk* \
+          mysql* \
+          php*
+        sudo -E apt-get update
+        sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler u-boot-tools
+        sudo -E apt-get -y autoremove --purge
+        sudo -E apt-get clean
+
+    - name: Clone source code
+      run: |
+        git clone https://github.com/coolsnowwolf/lede lede
+
+    - name: Update feeds
+      run: cd lede && ./scripts/feeds update -a
+
+    - name: Install feeds
+      run: cd lede && ./scripts/feeds install -a
+
+    - name: Load custom configuration
+      run: |
+        cp -f Openwrt/jdclound.config ./lede/.config
+        cp -f Openwrt/mt7621_jdcloud_re-sp-01b.dts ./lede/target/linux/ramips/dts/mt7621_jdcloud_re-sp-01b.dts
+        cp -f Openwrt/681-NET-add-of_get_mac_address_mtd.patch ./lede/target/linux/generic/pending-4.14/681-NET-add-of_get_mac_address_mtd.patch
+        cp -f Openwrt/681-NET-add-of_get_mac_address_mtd1.patch ./lede/target/linux/generic/pending-4.19/681-NET-add-of_get_mac_address_mtd.patch
+        cp -f Openwrt/681-NET-add-of_get_mac_address_mtd2.patch ./lede/target/linux/generic/pending-4.9/681-NET-add-of_get_mac_address_mtd.patch        
+        sed -i '386a\define Device/jdcloud_re-sp-01b' ./lede/target/linux/ramips/image/mt7621.mk 
+        sed -i '387a\  MTK_SOC := mt7621' ./lede/target/linux/ramips/image/mt7621.mk 
+        sed -i '388a\  IMAGE_SIZE := 27328k' ./lede/target/linux/ramips/image/mt7621.mk 
+        sed -i '389a\  DEVICE_VENDOR := JDCloud' ./lede/target/linux/ramips/image/mt7621.mk 
+        sed -i '390a\  DEVICE_MODEL := RE-SP-01B' ./lede/target/linux/ramips/image/mt7621.mk 
+        sed -i '391a\  DEVICE_PACKAGES := kmod-fs-ext4 kmod-mt7603 kmod-mt7615e kmod-sdhci-mt7620 kmod-usb3 wpad-openssl' ./lede/target/linux/ramips/image/mt7621.mk
+        sed -i '392a\  SUPPORTED_DEVICES += jdcloud_re-sp-01b' ./lede/target/linux/ramips/image/mt7621.mk
+        sed -i '393a\endef' ./lede/target/linux/ramips/image/mt7621.mk        
+        sed -i '394a\TARGET_DEVICES += jdcloud_re-sp-01b' ./lede/target/linux/ramips/image/mt7621.mk 
+        sed -i '393a\\r' ./lede/target/linux/ramips/image/mt7621.mk 
+        sed -i '67a\	jdcloud,re-sp-01b|\\' ./lede/target/linux/ramips/mt7621/base-files/etc/board.d/02_network
+        chmod +x Openwrt/diy.sh
+        cd lede
+        ..
+        Openwrt/diy.sh
+        make defconfig
+
+    - name: Download package
+      run: |
+        echo -e "$(nproc) thread build."
+        cd lede && make download -j$(nproc)
+        find dl -size -1024c -exec ls -l {} \;
+        find dl -size -1024c -exec rm -f {} \;
+
+    - name: Build
+      run: |
+        cd lede
+        echo -e "$(nproc) thread build."
+        make -j$(nproc) V=s
+
+
+    - name: Assemble artifact
+      run: |
+        rm -rf ./lede/artifact/
+        mkdir -p ./lede/artifact/
+        find ./lede/bin/targets/ -name "*combined*img*" | xargs -i mv -f {} ./lede/artifact/
+        find ./lede/bin/targets/ -name "*sysupgrade*bin*" | xargs -i mv -f {} ./lede/artifact/
+    - name: Upload artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: JDCOS
+        path: ./lede/artifact/

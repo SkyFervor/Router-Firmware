@@ -1,0 +1,17 @@
+#!/bin/sh
+sleep 8
+#至少多拨上线数目：
+dialnum=$(uci get syncdial.config.dialnum)
+#最大多拨数目
+wannum=$(uci get syncdial.config.wannum)
+#当前虚拟端口拨号成功取得ip的数目(排除掉其他物理端口发起的拨号)：
+upnum=$(ip a|grep peer|grep -v grep|grep 'pppoe-vwan'|wc -l)
+upip=$(ip a|grep peer|grep -v grep|grep 'pppoe-vwan'|awk '{print $2}')
+for i in $(seq 1 $wannum)
+do
+upipnum=$(ifconfig |grep "pppoe-vwan$i"|wc -l)
+
+if [ "$(uci get syncdial.config.enabled)" = "1" ] && [ "$upnum" -ne "0" ];then
+        if [ "$upnum" -lt $dialnum ];then 
+        logger -t PPPoE-IPUPUPUP---------------------------Checker "iponline  ***$upip"
+        kill -9 $(ps |grep pppd|grep -v grep|grep vwan$i|awk '{print $1}') && logger -t PPPoE-IPUPUPUP--Checker "--------------------vlan  interfaces are killed!"
