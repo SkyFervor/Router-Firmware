@@ -60,10 +60,10 @@ jobs:
 
     - name: Load custom configuration
       run: |
-        cp -f newifi3.config ./lede/.config
-        chmod +x newifi3.sh
+        cp -f Openwrt/newifi3.config ./lede/.config
+        chmod +x Openwrt/newifi3.sh
         cd lede
-        ../newifi3.sh
+        ../Openwrt/newifi3.sh
         make defconfig
 
     - name: Download package
