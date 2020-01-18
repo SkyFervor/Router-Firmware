@@ -63,8 +63,7 @@ jobs:
         cp -f Openwrt/jdclound.config ./lede/.config
         cp -f Openwrt/mt7621_jdcloud_re-sp-01b.dts ./lede/target/linux/ramips/dts/mt7621_jdcloud_re-sp-01b.dts
         cp -f Openwrt/681-NET-add-of_get_mac_address_mtd.patch ./lede/target/linux/generic/pending-4.14/681-NET-add-of_get_mac_address_mtd.patch
-        cp -f Openwrt/681-NET-add-of_get_mac_address_mtd1.patch ./lede/target/linux/generic/pending-4.19/681-NET-add-of_get_mac_address_mtd.patch
-        cp -f Openwrt/681-NET-add-of_get_mac_address_mtd2.patch ./lede/target/linux/generic/pending-4.9/681-NET-add-of_get_mac_address_mtd.patch        
+        cp -f Openwrt/681-NET-add-of_get_mac_address_mtd1.patch ./lede/target/linux/generic/pending-4.19/681-NET-add-of_get_mac_address_mtd.patch        
         sed -i '386a\define Device/jdcloud_re-sp-01b' ./lede/target/linux/ramips/image/mt7621.mk 
         sed -i '387a\  MTK_SOC := mt7621' ./lede/target/linux/ramips/image/mt7621.mk 
         sed -i '388a\  IMAGE_SIZE := 27328k' ./lede/target/linux/ramips/image/mt7621.mk 
