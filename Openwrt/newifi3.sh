@@ -17,6 +17,10 @@ echo '删除旧版argon,链接新版'
 rm -rf ./package/lean/luci-theme-argon
 ln -s ../../../Openwrt/luci-theme-argon ./package/lean/
 
+echo '汉化LXC'
+rm -rf ./package/feeds/luci/luci-app-lxc
+ln -s ../../../Openwrt/luci-app-lxc ./package/feeds/luci/
+
 echo '修改wifi名称'
 sed -i 's/OpenWrt/Newifi/g' package/kernel/mac80211/files/lib/wifi/mac80211.sh
 
