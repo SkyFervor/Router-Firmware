@@ -21,7 +21,7 @@ echo '修改wifi名称'
 sed -i 's/OpenWrt/Newifi/g' package/kernel/mac80211/files/lib/wifi/mac80211.sh
 
 echo '修改连接数'
-sed -i '2c net.netfilter.nf_conntrack_max=131072' package/base-files/files/etc/sysctl.conf
+sed -i '1c net.netfilter.nf_conntrack_max=131072' package/base-files/files/etc/sysctl.conf
 
 
 #echo '修改多拨'
