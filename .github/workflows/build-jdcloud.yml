@@ -70,15 +70,15 @@ jobs:
         sed -i '388a\  IMAGE_SIZE := 27328k' ./lede/target/linux/ramips/image/mt7621.mk 
         sed -i '389a\  DEVICE_VENDOR := JDCloud' ./lede/target/linux/ramips/image/mt7621.mk 
         sed -i '390a\  DEVICE_MODEL := RE-SP-01B' ./lede/target/linux/ramips/image/mt7621.mk 
-        sed -i '391a\  DEVICE_PACKAGES := kmod-fs-ext4 kmod-mt7603 kmod-mt7615e kmod-sdhci-mt7620 kmod-usb3 wpad-openssl' ./lede/target/linux/ramips/image/mt7621.mk
+        sed -i '391a\  DEVICE_PACKAGES := kmod-fs-ext4 kmod-mt7603 kmod-mt7615e kmod-sdhci-mt7620 kmod-usb2 wpad-openssl' ./lede/target/linux/ramips/image/mt7621.mk
         sed -i '392a\  SUPPORTED_DEVICES += jdcloud_re-sp-01b' ./lede/target/linux/ramips/image/mt7621.mk
         sed -i '393a\endef' ./lede/target/linux/ramips/image/mt7621.mk        
         sed -i '394a\TARGET_DEVICES += jdcloud_re-sp-01b' ./lede/target/linux/ramips/image/mt7621.mk 
         sed -i '393a\\r' ./lede/target/linux/ramips/image/mt7621.mk 
         sed -i '67a\	jdcloud,re-sp-01b|\\' ./lede/target/linux/ramips/mt7621/base-files/etc/board.d/02_network
-        chmod +x Openwrt/diy.sh
+        chmod +x Openwrt/jdclound.sh
         cd lede
-        ../Openwrt/diy.sh
+        ../Openwrt/jdclound.sh
         make defconfig
 
     - name: Download package
