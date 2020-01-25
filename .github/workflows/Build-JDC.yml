@@ -46,8 +46,7 @@ jobs:
 
       - name: Load custom configuration
         run: |
-          cp -f -r Padavan/JDC/ /opt/rt-n56u/trunk/configs/boards/JDC
-          cp -f Padavan/JDC.config /opt/rt-n56u/trunk/configs/templates
+
 
       - name: Build Firmware
         env:
