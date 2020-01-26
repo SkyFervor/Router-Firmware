@@ -43,8 +43,6 @@ jobs:
       env:
         TNAME: "NEWIFI3"
       run: |
-        cwd=`pwd`
-        CONFIG_TOOLCHAIN_DIR=${cwd//\//\\\/}\\/toolchain-mipsel
         cd /opt/rt-n56u/trunk
         for m in $TNAME;
         do
