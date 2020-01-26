@@ -1,5 +1,5 @@
 #修改TNAME: K2P-5.0 中的K2P-5.0为你需要编译的型号，注意名称要与configs/templates/目录下的名字相同
-name: Build JDC-Padavan
+name: Build NEWIFI-Padavan
 
 on: 
   release:
@@ -50,7 +50,7 @@ jobs:
 
       - name: Build Firmware
         env:
-          TNAME: "JDC-1-5.0"
+          TNAME: "NEWIFI3"
         run: |
           mkdir -p /opt/images/
           cd /opt/rt-n56u/trunk
@@ -107,5 +107,5 @@ jobs:
         uses: actions/upload-artifact@master
         if: always()
         with:
-          name: JDC-Padavan
+          name: NEWIFI-Padavan
           path: /opt/images
