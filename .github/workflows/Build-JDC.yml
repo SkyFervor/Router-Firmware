@@ -41,11 +41,9 @@ jobs:
         mkdir -p /opt/images/
     - name: Build Firmware
       env:
-        TNAME: "NEWIFI3"
+        TNAME: "JDC-1-5.0"
       run: |
-        cwd=`/opt/rt-n56u/toolchain-mipsel`
-        CONFIG_TOOLCHAIN_DIR=$cwd
-        cd trunk
+        cd /opt/rt-n56u/trunk
         for m in $TNAME;
         do
         if [ ! -f configs/templates/$m.config ] ; then
@@ -94,7 +92,6 @@ jobs:
         echo "CONFIG_FIRMWARE_INCLUDE_V2RAY=n" >> .config #v2ray二进制文件
         fi
         ####################################################################################
-        sed -i "s/^CONFIG_TOOLCHAIN_DIR=.*$/CONFIG_TOOLCHAIN_DIR=${CONFIG_TOOLCHAIN_DIR}/g" .config
         sudo ./clear_tree_simple
         sudo ./build_firmware_bkye $m
         sudo mv -f images/*.trx /opt/images/
