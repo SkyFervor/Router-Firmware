@@ -96,10 +96,10 @@ jobs:
         sudo ./build_firmware_bkye $m
         sudo mv -f images/*.trx /opt/images/
         done
-      - name : Upload packages
-        uses: actions/upload-artifact@master
-        if: always()
-        with:
-          name: JDC-Padavan
-          path: /opt/images
+    - name : Upload packages
+      uses: actions/upload-artifact@master
+      if: always()
+      with:
+        name: JDC-Padavan
+        path: /opt/images
 
