@@ -33,7 +33,7 @@ jobs:
     - name: Clone source code
       run: |
         git clone --depth=1 https://github.com/chongshengB/rt-n56u.git /opt/rt-n56u
-        sudo -E chmod -R 777 /opt/rt-n56u
+        sudo -E chmod -R 777 /opt/rt-n56u/
         cd /opt/rt-n56u/toolchain-mipsel
         sudo -E mkdir -p toolchain-3.4.x
         wget https://github.com/hanwckf/padavan-toolchain/releases/download/v1.0/mipsel-linux-uclibc.tar.xz
@@ -43,6 +43,8 @@ jobs:
       env:
         TNAME: "NEWIFI3"
       run: |
+        cwd=`/opt/rt-n56u/toolchain-mipsel`
+        CONFIG_TOOLCHAIN_DIR=$cwd
         cd /opt/rt-n56u/trunk
         for m in $TNAME;
         do

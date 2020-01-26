@@ -43,7 +43,9 @@ jobs:
       env:
         TNAME: "NEWIFI3"
       run: |
-        cd /opt/rt-n56u/trunk
+        cwd=`/opt/rt-n56u/toolchain-mipsel`
+        CONFIG_TOOLCHAIN_DIR=$cwd
+        cd trunk
         for m in $TNAME;
         do
         if [ ! -f configs/templates/$m.config ] ; then
