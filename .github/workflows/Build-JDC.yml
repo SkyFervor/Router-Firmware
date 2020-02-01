@@ -34,6 +34,9 @@ jobs:
       run: |
         git clone --depth=1 https://github.com/chongshengB/rt-n56u.git /opt/rt-n56u
         sudo -E chmod -R 777 /opt/rt-n56u
+        sudo -E rm -rf /opt/rt-n56u/trunk/linux-3.4.x/drivers/net/wireless/ralink/mt76x3_ap
+        sudo -E ln -s Padavan/mt7603_wifi_ap /opt/rt-n56u/trunk/linux-3.4.x/drivers/net/wireless/ralink/mt76x3_ap
+        sudo -E ln -s Padavan/mt7603_wifi /opt/rt-n56u/trunk/linux-3.4.x/drivers/net/wireless/ralink/mt7603
         cd /opt/rt-n56u/toolchain-mipsel
         sudo -E mkdir -p toolchain-3.4.x
         wget https://github.com/hanwckf/padavan-toolchain/releases/download/v1.0/mipsel-linux-uclibc.tar.xz
